@@ -1,0 +1,12 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Post metrics of Amazon Elasticsearch Service to Mackerel
+
+Resources:
+  PostEsMetrics:
+    Type: AWS::Serverless::Function
+    Properties:
+      Runtime: python3.6
+      Handler: lambda_function.lambda_handler
+      Events:
