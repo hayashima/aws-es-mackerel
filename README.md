@@ -54,3 +54,31 @@ $ ./kick.sh
 ```shell
 (venv) $ python -m doctest src/lambda_function.py -v
 ```
+
+
+### deploy
+
+SAM Localを使用してデプロイする
+
+```shell
+$ cd src
+$ sam package --template-file template.yaml --s3-bucket <YOUR-BUCKET-NAME-HERE> --s3-prefix <DIR-NAME-HERE> --output-template-file package.yaml
+
+Uploading to <prefix-id> nnnn / nnnn (100.00%)
+Successfully packaged artifacts and wrote output template to file package.yaml.
+Execute the following command to deploy the packaged template
+aws cloudformation deploy --tempalte-file package.yaml --stack-name <YOUR STACK NAME>
+
+$ sam deploy --template-file package.yaml --stack-name <YOUR STACK NAME> --capabilities CAPABILITY_IAM
+
+Waiting for changeset to be created..
+Waiting for stack create/update to complete
+Successfully created/updated stack - <YOUR STACK NAME>
+```
+
+##### 以下初回デプロイ時のみ
+
+* Lambdaコンソールに各環境変数（`MACKEREL_API_KEY`, `MACKEREL_SERVICE_NAME`, `ELASTICSEARCH_DOMAIN_NAME`, `ELASTICSEARCH_CLIENT_ID`）が登録されているので値を設定する。
+* Lambdaの実行ロールにCloudWatchメトリックの取得ができる権限を付ける。
+    - IAMコンソールから`cloudwatch:GetMetricStatistics`を追加してやる
+* Lambdaコンソールの「トリガーの追加」から`CloudWatch Events`のトリガーを設定する。
