@@ -40,8 +40,8 @@ $ source ./venv/bin/activate
 ローカルで実行するには以下のコマンドを実行します。
 
 ```shell
-$ AWS_REGION=ap-northeast-1 sam local generate-event schedule | sam local invoke --template src/template.yaml --env-vars env.json
-or
+$ sam local generate-event schedule | sam local invoke PostEsMetrics -t src/template.yaml -n env.json
+# or まったく同じ内容を以下のシェルスクリプトに記載しているので↓でもOK
 $ ./kick.sh
 ```
 
